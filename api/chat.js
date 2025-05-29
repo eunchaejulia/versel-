@@ -19,9 +19,11 @@ export default async function handler(req, res) {
     });
 
     const data = await openaiRes.json();
-    res.status(200).json({ reply: data.choices?.[0]?.message?.content || "응답 오류" });
+    console.log("🔍 GPT 응답 결과 (stringified):", JSON.stringify(data));
+
+    return res.status(200).json({ reply: data.choices?.[0]?.message?.content || "응답 오류남" });
   } catch (err) {
-    console.error("API 서버 에러:", err);
-    res.status(500).json({ error: "서버 에러" });
+    console.error("❌ OpenAI 호출 에러:", err);
+    return res.status(500).json({ error: "서버 에러" });
   }
 }
